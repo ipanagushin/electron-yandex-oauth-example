@@ -9,6 +9,7 @@ const CLIENT_ID = '<ClientId вашего приложения>';
 // Важно, в конце должен быть '/', но только в CALLBACK_URL, фильтр запросов требует path
 const CALLBACK_URL = 'http://localhost:9589/';
 const AUTH_URL = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${CLIENT_ID}`;
+const REQUEST_FILTER = { urls: [CALLBACK_URL] };
 
 //Паттерн позволяет достать сразу токен и время истечения токена
 const REGEX_PATTERN = /access_token=([^&]*).+expires_in=(\d+)/si;
@@ -39,6 +40,12 @@ app.on("ready", () => {
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+  });
+
+  ipcMain.on('logout', (event) => {
+    let defaultSession = getDefaultSession();
+    defaultSession.clearStorageData();
+    event.sender.send('logout-processed');
   });
 });
 
@@ -85,16 +92,19 @@ function createLoginWindow(event: IpcMainEvent) {
       authWindow.close();
   });
 
-  const { session } = require('electron');
-  const defaultSession = session.defaultSession;
-  const filter = { urls: [CALLBACK_URL] };
-  defaultSession.webRequest.onBeforeRequest(filter, (details, callback) => {
+  let defaultSession = getDefaultSession();
+  defaultSession.webRequest.onBeforeRequest(REQUEST_FILTER, (details, callback) => {
     event.sender.send('auth-info', ParseAuthInfo(details.url));
     authWindow.close();
     callback({});
   });
 
   authWindow.loadURL(AUTH_URL);
+}
+
+function getDefaultSession(): Electron.Session {
+  const { session } = require('electron');
+  return session.defaultSession;
 }
 
 function ParseAuthInfo(url: string) {

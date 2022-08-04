@@ -8,6 +8,7 @@
   <h1>Yandex OAuth example</h1>
   <div>
     <button id="authBtn">Login</button>
+    <button id="logoutBtn" hidden>Logout</button>
     <hr>
     <div>
       <label id="tokenLabel"></label>
@@ -16,7 +17,7 @@
     </div>
   </div>
   
-  <div id="infoBlock" hidden="true">
+  <div id="infoBlock" hidden>
     <hr>
     <label>Важно, яндекс вместо <b>Bearer</b> в Authorization header использует <b>Oauth</b></label>
     <br>

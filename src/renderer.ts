@@ -2,6 +2,11 @@ const ipcRenderer = require("electron").ipcRenderer
 
 const USER_INFO_URL = 'https://login.yandex.ru/info';
 const authButton = getHtmlElement('authBtn');
+const logoutButton = getHtmlElement('logoutBtn');
+
+logoutButton.onclick = () => {
+    ipcRenderer.send('logout');
+}
 
 authButton.onclick = () => {
     openLoginWindow();
@@ -21,6 +26,15 @@ ipcRenderer.on('auth-info', function (event, info) {
     getHtmlElement('testFetch').onclick = () => {
         fetchUserInfoFunc(info.token);
     };
+    logoutButton.hidden = false;
+});
+
+ipcRenderer.on('logout-processed', () => {
+    logoutButton.hidden = true;
+    getHtmlElement('tokenLabel').innerText = '';
+    getHtmlElement('expiresLabel').innerText = '';
+    getHtmlElement('exampleHeader').innerText = '';
+    getHtmlElement('infoBlock').hidden = true;
 });
 
 function fetchUserInfoFunc(token: string) {
