@@ -1,0 +1,24 @@
+{
+  "name": "electron-yandex-oauth-example",
+  "version": "1.0.0",
+  "description": "Yandex OAuth Electron application written with Typescript",
+  "scripts": {
+    "start": "tsc && electron ./dist/main.js",
+    "start:xwayland":"tsc && electron ./dist/main.js --no-sandbox"
+  },
+  "repository": "",
+  "keywords": [
+    "Electron",
+    "typescript",
+    "yandex",
+    "token",
+    "oauth",
+    "ipc"
+  ],
+  "author": "ipanagushin",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^6.1.12",
+    "typescript": "^4.7.2"
+  }
+}

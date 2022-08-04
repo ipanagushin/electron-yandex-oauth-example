@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+  <h1>Yandex OAuth example</h1>
+  <div>
+    <button id="authBtn">Login</button>
+    <hr>
+    <div>
+      <label id="tokenLabel"></label>
+      <br>
+      <label id="expiresLabel"></label>
+    </div>
+  </div>
+  
+  <div id="infoBlock" hidden="true">
+    <hr>
+    <label>Важно, яндекс вместо <b>Bearer</b> в Authorization header использует <b>Oauth</b></label>
+    <br>
+    <label>Заголовок будет выглядеть вот так:</label>
+    <br>
+    <label id="exampleHeader"></label>
+    <hr>
+    <button id="testFetch">Получение данных пользователя</button>
+    <hr>
+    <pre id="fetchResult"></pre>
+  </div>
+
+  <script src="./dist/renderer.js"></script>
+</body>
+
+</html>
